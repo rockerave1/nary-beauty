@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.mcp.json
+*.log
+.DS_Store
+assets/
+video/
+website/
+render-mcp-server/
+.claude/
