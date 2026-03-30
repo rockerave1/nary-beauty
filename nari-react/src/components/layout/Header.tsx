@@ -16,7 +16,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-[background-color,box-shadow,backdrop-filter] duration-200 ${
         scrolled
           ? 'bg-[#faf5ef]/90 backdrop-blur-md shadow-[0_1px_30px_rgba(44,24,16,0.06)]'
           : 'bg-transparent'
@@ -72,11 +72,11 @@ export const Header = () => {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-[#faf5ef] border-t border-warm-200 overflow-hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+            className="md:hidden bg-[#faf5ef] border-t border-warm-200"
           >
             <div className="px-6 py-6 flex flex-col gap-4">
               {siteContent.nav.map(item => (

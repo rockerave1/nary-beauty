@@ -10,10 +10,10 @@ export const Intro = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-center">
           {/* Text */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           >
             <p className="font-sans text-[11px] tracking-[0.25em] uppercase text-warm-500 mb-6">
               About Nary
@@ -34,10 +34,10 @@ export const Intro = () => {
 
           {/* Photo — editorial card */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.4, delay: 0.08, ease: [0.23, 1, 0.32, 1] }}
             className="flex justify-center md:justify-end"
           >
             <div className="relative w-[280px] md:w-[300px]">
@@ -55,7 +55,7 @@ export const Intro = () => {
                 <img
                   src={intro.image}
                   alt="Nary salon interior"
-                  className="w-full aspect-[3/4] object-cover hover:scale-[1.02] transition-transform duration-500"
+                  className="w-full aspect-[3/4] object-cover transition-transform duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:[@media(hover:hover)]:scale-[1.02]"
                 />
               </div>
 

@@ -12,10 +12,10 @@ export const Rituals = () => {
     <section id="services" className="py-24 md:py-32 bg-[#f5ebe0]">
       <div className="max-w-5xl mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           className="mb-12"
         >
           <p className="font-sans text-[11px] tracking-[0.25em] uppercase text-warm-500 mb-4">
@@ -46,9 +46,9 @@ export const Rituals = () => {
         {/* Price grid */}
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10"
         >
           {activeCategory.sections.map(section => (

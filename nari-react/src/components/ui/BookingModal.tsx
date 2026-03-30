@@ -107,12 +107,12 @@ export const BookingModal = () => {
           {/* Backdrop */}
           <div className="absolute inset-0 bg-warm-950/60 backdrop-blur-sm" />
 
-          {/* Modal */}
+          {/* Modal — Emil: modals keep transform-origin center, enter with ease-out, exit faster */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.98 }}
-            transition={{ duration: 0.25 }}
+            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+            transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
             onClick={e => e.stopPropagation()}
             className="relative bg-warm-50 w-full max-w-md max-h-[90vh] overflow-y-auto"
           >
@@ -231,13 +231,12 @@ export const BookingModal = () => {
                               type="button"
                               disabled={isPast}
                               onClick={() => !isPast && update('time', t)}
-                              className={`py-2 text-[11px] font-sans border transition-all duration-150 ${
-                                isPast
+                              className={`py-2 text-[11px] font-sans border transition-all duration-150 ${isPast
                                   ? 'bg-warm-100 text-warm-300 border-warm-100 cursor-not-allowed line-through'
                                   : form.time === t
                                     ? 'bg-warm-900 text-white border-warm-900'
                                     : 'bg-white text-warm-600 border-warm-200 hover:border-warm-400'
-                              }`}
+                                }`}
                             >
                               {t}
                             </button>

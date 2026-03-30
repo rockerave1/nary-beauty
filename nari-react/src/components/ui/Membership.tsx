@@ -7,10 +7,10 @@ export const Membership = () => {
     <section id="visit" className="py-24 md:py-32 bg-warm-900">
       <div className="max-w-2xl mx-auto px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
         >
           <p className="font-sans text-[11px] tracking-[0.25em] uppercase text-white/40 mb-6">
             Visit Us
