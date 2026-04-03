@@ -8,8 +8,8 @@ export const Footer = () => {
 
   return (
     <footer className="bg-[#f5ebe0]">
-      {/* Two-column: info left (60%), map right (40%) */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.65fr]">
+      {/* Two-column: info left, map right — map matches left content height */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.45fr] items-stretch">
         {/* Left — Info */}
         <div className="px-8 md:px-16 lg:pl-[max(2rem,calc((100vw-64rem)/2+2rem))] lg:pr-16 py-20">
           <h2 className="font-serif text-4xl md:text-5xl text-warm-900 leading-tight mb-14">
@@ -23,7 +23,7 @@ export const Footer = () => {
               <p className="font-sans text-[10px] tracking-[0.2em] uppercase text-warm-400 mb-1.5">Location</p>
               <p className="font-sans text-[15px] text-warm-800 leading-relaxed">
                 Nary Beauty Center<br />
-                Ajman, United Arab Emirates
+                Al Yasmeen, Ajman, UAE
               </p>
             </div>
           </div>
@@ -61,7 +61,9 @@ export const Footer = () => {
 
           {/* Follow CTA */}
           <a
-            href="#"
+            href="https://www.instagram.com/nary_beautycenter/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-3 border border-warm-300 px-6 py-3 font-sans text-[11px] tracking-[0.15em] uppercase text-warm-600 hover:border-warm-600 hover:text-warm-900 transition-colors duration-200"
           >
             Follow us on Instagram
@@ -69,11 +71,11 @@ export const Footer = () => {
           </a>
         </div>
 
-        {/* Right — Map (edge-to-edge) */}
-        <div className="h-[280px] lg:h-auto lg:min-h-[380px]">
+        {/* Right — Map: stretches to match left column height */}
+        <div className="h-[240px] lg:h-auto lg:py-20 lg:pr-8">
           <iframe
             src={MAPS_EMBED_URL}
-            className="w-full h-full border-0"
+            className="w-full h-full border-0 lg:rounded-md"
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

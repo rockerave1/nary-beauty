@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../../hooks/useBooking';
 
@@ -22,20 +23,29 @@ const fadeIn = {
 
 export const Hero = () => {
   const { open: openBooking } = useBooking();
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <section id="home" className="relative h-screen min-h-[650px] overflow-hidden bg-[#f0e6da]">
-      {/* Background photo */}
+      {/* Background photo with blur-up loading */}
       <motion.div
         className="absolute inset-0"
         variants={fadeIn}
         initial="hidden"
         animate="show"
       >
+        {/* Tiny placeholder — loads instantly, shown blurred until real image is ready */}
         <img
-          src="/images/salon-render-bright.png"
+          src="/images/salon-render-bright-blur.jpg"
           alt=""
-          className="w-full h-full object-cover object-right md:object-center"
+          aria-hidden
+          className={`absolute inset-0 w-full h-full object-cover object-right md:object-center scale-105 blur-xl transition-opacity duration-500 ${imgLoaded ? 'opacity-0' : 'opacity-100'}`}
+        />
+        <img
+          src="/images/salon-render-bright.jpg"
+          alt=""
+          onLoad={() => setImgLoaded(true)}
+          className={`w-full h-full object-cover object-right md:object-center transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
         {/* Softer warm gradient overlays — lets the bright interior breathe */}
         <div
@@ -119,7 +129,7 @@ export const Hero = () => {
             <div className="w-px h-8 bg-white/10" />
             <div>
               <p className="font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1">Location</p>
-              <p className="font-sans text-[13px] text-white/60">Ajman, UAE</p>
+              <p className="font-sans text-[13px] text-white/60">Al Yasmeen, Ajman</p>
             </div>
           </div>
 

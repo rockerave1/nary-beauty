@@ -124,7 +124,7 @@ export const BookingModal = () => {
               <span className="material-symbols-outlined text-xl">close</span>
             </button>
 
-            <div className="p-8 md:p-10">
+            <div className="p-6 sm:p-8 md:p-10">
               {step === 'form' ? (
                 <>
                   <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-warm-500 mb-2">
@@ -222,7 +222,7 @@ export const BookingModal = () => {
                       <label className="block font-sans text-[11px] tracking-wide text-warm-500 mb-1.5">
                         Preferred Time
                       </label>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                         {timeSlots.map(t => {
                           const isPast = (!form.date || form.date === today) && isSlotInPast(t);
                           return (
@@ -281,7 +281,7 @@ export const BookingModal = () => {
                     {form.service} on {new Date(form.date + 'T00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at {form.time}
                   </p>
                   <p className="font-sans text-sm text-warm-400 mb-8">
-                    You'll receive a confirmation on WhatsApp shortly.
+                    We'll confirm your appointment shortly.
                   </p>
                   <button
                     onClick={handleClose}

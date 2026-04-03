@@ -28,9 +28,10 @@ export const siteContent = {
   footer: {
     hours: "Open Daily · 10 am — 9 pm",
     social: [
-      { label: "Instagram", href: "#" },
-      { label: "TikTok", href: "#" },
-      { label: "WhatsApp", href: "#" },
+      { label: "Instagram", href: "https://www.instagram.com/nary_beautycenter/" },
+      { label: "TikTok", href: "https://www.tiktok.com/@nary.beautycenter" },
+      { label: "WhatsApp", href: "https://wa.me/971502793299" },
+      { label: "+971 50 279 3299", href: "tel:+971502793299" },
     ],
     nav: [
       { label: "About", href: "#about" },

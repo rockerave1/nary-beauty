@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import { sendBookingNotification, sendCustomerConfirmation } from './whatsapp';
+import { sendBookingNotification } from './whatsapp';
+import { sendToWebhook } from './webhook';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -34,7 +35,7 @@ app.post('/api/bookings', async (req, res) => {
   console.log('New booking:', booking);
 
   const whatsappConfigured = process.env.WHATSAPP_TOKEN && process.env.WHATSAPP_PHONE_ID
-    && process.env.WHATSAPP_TOKEN !== 'your_permanent_access_token_here';
+    && process.env.SALON_WHATSAPP_NUMBER;
 
   if (whatsappConfigured) {
     // Send notification to salon
@@ -45,17 +46,18 @@ app.post('/api/bookings', async (req, res) => {
       // Still accept the booking — don't fail just because WhatsApp is down
     }
 
-    // Try to send confirmation to customer (non-blocking)
-    sendCustomerConfirmation(booking).then(result => {
-      if (result.success) {
-        console.log('Customer confirmation sent to', phone);
-      } else {
-        console.log('Customer confirmation skipped:', result.error);
-      }
-    });
   } else {
     console.log('WhatsApp not configured — booking logged only.');
   }
+
+  // Log to Google Sheets via Make/Zapier webhook (non-blocking)
+  sendToWebhook(booking).then(result => {
+    if (result.success) {
+      console.log('Booking sent to webhook');
+    } else {
+      console.log('Webhook skipped:', result.error);
+    }
+  });
 
   res.json({
     success: true,

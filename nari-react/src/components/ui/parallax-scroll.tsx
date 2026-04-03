@@ -1,5 +1,5 @@
 import { useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
@@ -11,20 +11,27 @@ export const ParallaxScrollSecond = ({
   className?: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  // Column 1 — moves up-left with rotation
-  const translateYFirst = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const translateXFirst = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const rotateFirst = useTransform(scrollYProgress, [0, 1], [0, -8]);
+  // Reduce parallax intensity on mobile to prevent overflow
+  const translateYFirst = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -80 : -200]);
+  const translateXFirst = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 0 : -60]);
+  const rotateFirst = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 0 : -8]);
 
-  // Column 2 — moves up slowly (gives depth contrast)
-  const translateYSecond = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const translateYSecond = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -50 : -120]);
 
-  // Column 3 — moves up-right with rotation
   const translateYThird = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const translateXThird = useTransform(scrollYProgress, [0, 1], [0, 60]);
   const rotateThird = useTransform(scrollYProgress, [0, 1], [0, 8]);
