@@ -34,10 +34,10 @@ export const Intro = () => {
 
           {/* Photo — editorial card */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+            initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+            whileInView={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1.1, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
             className="flex justify-center md:justify-end"
           >
             <div className="relative w-[280px] md:w-[300px]">
@@ -50,20 +50,14 @@ export const Intro = () => {
                 }}
               />
 
-              {/* Main image — clip-path reveal */}
-              <motion.div
-                className="relative overflow-hidden bg-[#f4f3f1]"
-                initial={{ clipPath: 'inset(0 0 100% 0)' }}
-                whileInView={{ clipPath: 'inset(0 0 0% 0)' }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1.1, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-              >
+              {/* Main image */}
+              <div className="relative overflow-hidden bg-[#f4f3f1]">
                 <img
                   src={intro.image}
                   alt="Nary salon interior"
                   className="w-full aspect-[3/4] object-cover transition-transform duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:[@media(hover:hover)]:scale-[1.02]"
                 />
-              </motion.div>
+              </div>
 
               {/* Bottom accent strip — editorial metadata feel */}
               <div
