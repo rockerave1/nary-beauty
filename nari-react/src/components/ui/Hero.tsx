@@ -24,30 +24,29 @@ const fadeIn = {
 export const Hero = () => {
   const { open: openBooking } = useBooking();
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [mobileImgLoaded, setMobileImgLoaded] = useState(false);
 
   return (
     <section id="home" className="relative h-screen min-h-[650px] overflow-hidden bg-[#f0e6da]">
-      {/* Background photo with blur-up loading */}
+      {/* Background photo — desktop */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 hidden md:block"
         variants={fadeIn}
         initial="hidden"
         animate="show"
       >
-        {/* Tiny placeholder — loads instantly, shown blurred until real image is ready */}
         <img
           src="/images/salon-render-bright-blur.jpg"
           alt=""
           aria-hidden
-          className={`absolute inset-0 w-full h-full object-cover object-right md:object-center scale-105 blur-xl transition-opacity duration-500 ${imgLoaded ? 'opacity-0' : 'opacity-100'}`}
+          className={`absolute inset-0 w-full h-full object-cover object-center scale-105 blur-xl transition-opacity duration-500 ${imgLoaded ? 'opacity-0' : 'opacity-100'}`}
         />
         <img
           src="/images/salon-render-bright.jpg"
           alt=""
           onLoad={() => setImgLoaded(true)}
-          className={`w-full h-full object-cover object-right md:object-center transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`w-full h-full object-cover object-center transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
-        {/* Softer warm gradient overlays — lets the bright interior breathe */}
         <div
           className="absolute inset-0"
           style={{
@@ -62,24 +61,44 @@ export const Hero = () => {
         />
       </motion.div>
 
-      {/* Content — left-aligned, pushed below logo on mobile */}
-      <div className="relative z-10 h-full flex items-end pb-32 md:pb-0 md:items-center">
+      {/* Background photo — mobile */}
+      <motion.div
+        className="absolute inset-0 md:hidden"
+        variants={fadeIn}
+        initial="hidden"
+        animate="show"
+      >
+        <img
+          src="/images/salon-hero-mobile.png"
+          alt=""
+          onLoad={() => setMobileImgLoaded(true)}
+          className={`w-full h-full object-cover object-top transition-opacity duration-500 ${mobileImgLoaded ? 'opacity-100' : 'opacity-0'}`}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to top, rgba(58,40,26,0.9) 0%, rgba(58,40,26,0.6) 40%, rgba(58,40,26,0.1) 65%, transparent 100%)',
+          }}
+        />
+      </motion.div>
+
+      {/* Content — desktop: left-aligned center */}
+      <div className="relative z-10 h-full hidden md:flex items-center">
         <div className="max-w-5xl mx-auto px-6 w-full">
           <motion.div
-            className="max-w-lg text-center md:text-left mx-auto md:mx-0"
+            className="max-w-lg"
             variants={stagger}
             initial="hidden"
             animate="show"
           >
-            {/* Decorative ornament */}
-            <motion.div className="flex items-center justify-center md:justify-start gap-3 mb-10" variants={fadeUp}>
+            <motion.div className="flex items-center gap-3 mb-10" variants={fadeUp}>
               <div className="w-10 h-px bg-white/30" />
               <div className="w-1.5 h-1.5 rotate-45 bg-white/40" />
               <div className="w-10 h-px bg-white/30" />
             </motion.div>
 
             <motion.h1
-              className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.15] mb-6"
+              className="font-serif text-5xl lg:text-6xl text-white leading-[1.15] mb-6"
               variants={fadeUp}
             >
               Where beauty<br />
@@ -87,28 +106,75 @@ export const Hero = () => {
             </motion.h1>
 
             <motion.p
-              className="font-sans text-[13px] md:text-[15px] text-white/50 leading-relaxed mb-10 max-w-sm mx-auto md:mx-0"
+              className="font-sans text-[15px] text-white/50 leading-relaxed mb-10 max-w-sm"
               variants={fadeUp}
             >
               Expert hair styling, nail artistry, and head-to-toe pampering — all in one calm, modern space.
             </motion.p>
 
-            <motion.div className="flex flex-col sm:flex-row items-center md:items-start gap-4" variants={fadeUp}>
+            <motion.div className="flex flex-row items-start gap-4" variants={fadeUp}>
               <button
                 onClick={openBooking}
-                className="bg-white text-warm-900 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-warm-100 cursor-pointer w-full sm:w-auto"
+                className="bg-white text-warm-900 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-warm-100 cursor-pointer"
               >
                 Book an Appointment
               </button>
               <a
                 href="#services"
-                className="border border-white/20 text-white/70 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans hover:border-white/40 hover:text-white w-full sm:w-auto text-center"
+                className="border border-white/20 text-white/70 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans hover:border-white/40 hover:text-white text-center"
               >
                 Our Services
               </a>
             </motion.div>
           </motion.div>
         </div>
+      </div>
+
+      {/* Content — mobile: headline in wall area, buttons below sofa */}
+      <div className="relative z-10 h-full flex md:hidden flex-col justify-between pt-[55%] pb-20 px-6">
+        {/* Headline + subtext — in the wall space */}
+        <motion.div
+          className="text-center"
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.h1
+            className="font-serif text-4xl text-white leading-[1.15] mb-4"
+            variants={fadeUp}
+          >
+            Where beauty<br />
+            <em className="italic text-white/70">feels like home</em>
+          </motion.h1>
+
+          <motion.p
+            className="font-sans text-[13px] text-white/50 leading-relaxed max-w-xs mx-auto"
+            variants={fadeUp}
+          >
+            Expert hair styling, nail artistry, and head-to-toe pampering — all in one calm, modern space.
+          </motion.p>
+        </motion.div>
+
+        {/* Buttons — pushed to bottom, below sofa */}
+        <motion.div
+          className="flex flex-row items-center gap-3"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5, ease: EASE_OUT }}
+        >
+          <button
+            onClick={openBooking}
+            className="bg-white/95 backdrop-blur-sm text-warm-900 py-3.5 text-[10px] tracking-[0.15em] uppercase font-sans font-medium cursor-pointer flex-1"
+          >
+            Book Now
+          </button>
+          <a
+            href="#services"
+            className="border border-white/30 backdrop-blur-sm text-white/80 py-3.5 text-[10px] tracking-[0.15em] uppercase font-sans flex-1 text-center"
+          >
+            Services
+          </a>
+        </motion.div>
       </div>
 
       {/* Bottom info bar */}
@@ -131,8 +197,8 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Scroll indicator */}
-          <div className="flex flex-col items-center gap-2 mx-auto md:ml-auto md:mr-0">
+          {/* Scroll indicator — desktop only */}
+          <div className="hidden md:flex flex-col items-center gap-2 ml-auto">
             <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-white/30">Scroll</span>
             <motion.div
               className="w-px h-6 bg-white/20 origin-top"
