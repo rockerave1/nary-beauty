@@ -34,34 +34,35 @@ app.post('/api/bookings', async (req, res) => {
 
   console.log('New booking:', booking);
 
+  // Respond immediately — don't make the user wait for WhatsApp/webhook
+  res.json({
+    success: true,
+    message: 'Booking received! We will confirm your appointment shortly.',
+  });
+
+  // Fire-and-forget: WhatsApp notification
   const whatsappConfigured = process.env.WHATSAPP_TOKEN && process.env.WHATSAPP_PHONE_ID
     && process.env.SALON_WHATSAPP_NUMBER;
 
   if (whatsappConfigured) {
-    // Send notification to salon
-    const salonResult = await sendBookingNotification(booking);
-
-    if (!salonResult.success) {
-      console.warn('WhatsApp send failed:', salonResult.error);
-      // Still accept the booking — don't fail just because WhatsApp is down
-    }
-
+    sendBookingNotification(booking).then(result => {
+      if (!result.success) {
+        console.warn('WhatsApp send failed:', result.error);
+      } else {
+        console.log('WhatsApp notification sent');
+      }
+    });
   } else {
     console.log('WhatsApp not configured — booking logged only.');
   }
 
-  // Log to Google Sheets via Make/Zapier webhook (non-blocking)
+  // Fire-and-forget: Google Sheets webhook
   sendToWebhook(booking).then(result => {
     if (result.success) {
       console.log('Booking sent to webhook');
     } else {
       console.log('Webhook skipped:', result.error);
     }
-  });
-
-  res.json({
-    success: true,
-    message: 'Booking received! We will confirm your appointment shortly.',
   });
 });
 
