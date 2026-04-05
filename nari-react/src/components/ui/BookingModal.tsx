@@ -224,19 +224,24 @@ export const BookingModal = () => {
                       </label>
                       <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                         {timeSlots.map(t => {
-                          const isPast = (!form.date || form.date === today) && isSlotInPast(t);
+                          const noDate = !form.date;
+                          const isPast = form.date === today && isSlotInPast(t);
+                          const isDisabled = noDate || isPast;
                           return (
                             <button
                               key={t}
                               type="button"
-                              disabled={isPast}
-                              onClick={() => !isPast && update('time', t)}
-                              className={`py-2 text-[11px] font-sans border transition-all duration-150 ${isPast
+                              disabled={isDisabled}
+                              onClick={() => !isDisabled && update('time', t)}
+                              className={`py-2 text-[11px] font-sans border transition-all duration-150 ${
+                                isPast
                                   ? 'bg-warm-100 text-warm-300 border-warm-100 cursor-not-allowed line-through'
-                                  : form.time === t
-                                    ? 'bg-warm-900 text-white border-warm-900'
-                                    : 'bg-white text-warm-600 border-warm-200 hover:border-warm-400'
-                                }`}
+                                  : noDate
+                                    ? 'bg-warm-100 text-warm-300 border-warm-100 cursor-not-allowed'
+                                    : form.time === t
+                                      ? 'bg-warm-900 text-white border-warm-900'
+                                      : 'bg-white text-warm-600 border-warm-200 hover:border-warm-400'
+                              }`}
                             >
                               {t}
                             </button>

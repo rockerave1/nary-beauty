@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../../hooks/useBooking';
 
-/* Emil: keep stagger short (30-80ms), UI animations under 500ms,
-   use custom ease-out curve for instant-feeling entrance */
 const EASE_OUT: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
 const stagger = {
@@ -23,82 +21,80 @@ const fadeIn = {
 
 export const Hero = () => {
   const { open: openBooking } = useBooking();
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [mobileImgLoaded, setMobileImgLoaded] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   return (
-    <section id="home" className="relative h-screen min-h-[650px] overflow-hidden bg-[#f0e6da]">
-      {/* Background photo — desktop */}
+    <section id="home" className="relative h-screen min-h-[650px] overflow-hidden bg-[#0f0a08]">
+      {/* Background video */}
       <motion.div
-        className="absolute inset-0 hidden md:block"
+        className="absolute inset-0"
         variants={fadeIn}
         initial="hidden"
-        animate="show"
+        animate={videoReady ? 'show' : 'hidden'}
       >
-        <img
-          src="/images/salon-render-bright-blur.jpg"
-          alt=""
-          aria-hidden
-          className={`absolute inset-0 w-full h-full object-cover object-center scale-105 blur-xl transition-opacity duration-500 ${imgLoaded ? 'opacity-0' : 'opacity-100'}`}
-        />
+        {/* Poster fallback while video loads */}
         <img
           src="/images/salon-render-bright.jpg"
           alt=""
-          onLoad={() => setImgLoaded(true)}
-          className={`w-full h-full object-cover object-center transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover"
         />
+        {/* Desktop video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          onCanPlay={() => setVideoReady(true)}
+          className="absolute inset-0 w-full h-full object-cover hidden md:block"
+        >
+          <source src="/images/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Mobile video (portrait) */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          onCanPlay={() => setVideoReady(true)}
+          className="absolute inset-0 w-full h-full object-cover md:hidden"
+        >
+          <source src="/images/hero-bg-mobile.mp4" type="video/mp4" />
+        </video>
+
+        {/* Gradient overlays */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(to right, rgba(58,40,26,0.78) 0%, rgba(58,40,26,0.5) 30%, rgba(58,40,26,0.1) 60%, transparent 100%)',
+            background: 'linear-gradient(to top, rgba(15,10,8,0.95) 0%, rgba(15,10,8,0.5) 40%, rgba(15,10,8,0.15) 65%, transparent 100%)',
           }}
         />
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hidden md:block"
           style={{
-            background: 'linear-gradient(to top, rgba(58,40,26,0.4) 0%, transparent 35%)',
+            background: 'linear-gradient(to right, rgba(15,10,8,0.6) 0%, rgba(15,10,8,0.2) 40%, transparent 70%)',
           }}
         />
       </motion.div>
 
-      {/* Background photo — mobile */}
-      <motion.div
-        className="absolute inset-0 md:hidden"
-        variants={fadeIn}
-        initial="hidden"
-        animate="show"
-      >
-        <img
-          src="/images/salon-hero-mobile.png"
-          alt=""
-          onLoad={() => setMobileImgLoaded(true)}
-          className={`w-full h-full object-cover object-top transition-opacity duration-500 ${mobileImgLoaded ? 'opacity-100' : 'opacity-0'}`}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to top, rgba(58,40,26,0.9) 0%, rgba(58,40,26,0.6) 40%, rgba(58,40,26,0.1) 65%, transparent 100%)',
-          }}
-        />
-      </motion.div>
-
-      {/* Content — desktop: left-aligned center */}
-      <div className="relative z-10 h-full hidden md:flex items-center">
-        <div className="max-w-5xl mx-auto px-6 w-full">
+      {/* Content — unified layout for all viewports */}
+      <div className="relative z-10 h-full flex flex-col justify-end pb-28 md:pb-32 px-6">
+        <div className="max-w-5xl mx-auto w-full">
           <motion.div
-            className="max-w-lg"
+            className="max-w-lg text-center md:text-left mx-auto md:mx-0"
             variants={stagger}
             initial="hidden"
             animate="show"
           >
-            <motion.div className="flex items-center gap-3 mb-10" variants={fadeUp}>
+            {/* Decorative ornament */}
+            <motion.div className="flex items-center justify-center md:justify-start gap-3 mb-8" variants={fadeUp}>
               <div className="w-10 h-px bg-white/30" />
               <div className="w-1.5 h-1.5 rotate-45 bg-white/40" />
               <div className="w-10 h-px bg-white/30" />
             </motion.div>
 
             <motion.h1
-              className="font-serif text-5xl lg:text-6xl text-white leading-[1.15] mb-6"
+              className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.15] mb-5"
               variants={fadeUp}
             >
               Where beauty<br />
@@ -106,22 +102,22 @@ export const Hero = () => {
             </motion.h1>
 
             <motion.p
-              className="font-sans text-[15px] text-white/50 leading-relaxed mb-10 max-w-sm"
+              className="font-sans text-[13px] md:text-[15px] text-white/50 leading-relaxed mb-8 max-w-sm mx-auto md:mx-0"
               variants={fadeUp}
             >
               Expert hair styling, nail artistry, and head-to-toe pampering — all in one calm, modern space.
             </motion.p>
 
-            <motion.div className="flex flex-row items-start gap-4" variants={fadeUp}>
+            <motion.div className="flex flex-row items-center gap-3 md:gap-4" variants={fadeUp}>
               <button
                 onClick={openBooking}
-                className="bg-white text-warm-900 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-warm-100 cursor-pointer"
+                className="bg-white/95 backdrop-blur-sm text-warm-900 px-6 py-3 md:px-8 md:py-4 text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-white cursor-pointer flex-1 md:flex-none transition-colors"
               >
-                Book an Appointment
+                Book Now
               </button>
               <a
                 href="#services"
-                className="border border-white/20 text-white/70 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans hover:border-white/40 hover:text-white text-center"
+                className="border border-white/25 backdrop-blur-sm text-white/80 px-6 py-3 md:px-8 md:py-4 text-[10px] md:text-[11px] tracking-[0.2em] uppercase font-sans hover:border-white/50 hover:text-white flex-1 md:flex-none text-center transition-colors"
               >
                 Our Services
               </a>
@@ -130,62 +126,15 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Content — mobile: headline in wall area, buttons below sofa */}
-      <div className="relative z-10 h-full flex md:hidden flex-col justify-between pt-[55%] pb-20 px-6">
-        {/* Headline + subtext — in the wall space */}
-        <motion.div
-          className="text-center"
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-        >
-          <motion.h1
-            className="font-serif text-4xl text-white leading-[1.15] mb-4"
-            variants={fadeUp}
-          >
-            Where beauty<br />
-            <em className="italic text-white/70">feels like home</em>
-          </motion.h1>
-
-          <motion.p
-            className="font-sans text-[13px] text-white/50 leading-relaxed max-w-xs mx-auto"
-            variants={fadeUp}
-          >
-            Expert hair styling, nail artistry, and head-to-toe pampering — all in one calm, modern space.
-          </motion.p>
-        </motion.div>
-
-        {/* Buttons — pushed to bottom, below sofa */}
-        <motion.div
-          className="flex flex-row items-center gap-3"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5, ease: EASE_OUT }}
-        >
-          <button
-            onClick={openBooking}
-            className="bg-white/95 backdrop-blur-sm text-warm-900 py-3.5 text-[10px] tracking-[0.15em] uppercase font-sans font-medium cursor-pointer flex-1"
-          >
-            Book Now
-          </button>
-          <a
-            href="#services"
-            className="border border-white/30 backdrop-blur-sm text-white/80 py-3.5 text-[10px] tracking-[0.15em] uppercase font-sans flex-1 text-center"
-          >
-            Services
-          </a>
-        </motion.div>
-      </div>
-
-      {/* Bottom info bar */}
+      {/* Bottom info bar — desktop */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-10"
+        className="absolute bottom-0 left-0 right-0 z-10 hidden md:block"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.4, ease: EASE_OUT }}
       >
         <div className="max-w-5xl mx-auto px-6 pb-8 flex items-end justify-between">
-          <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-8">
             <div>
               <p className="font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1">Hours</p>
               <p className="font-sans text-[13px] text-white/60">10 am — 9 pm Daily</p>
@@ -197,15 +146,6 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Scroll indicator — desktop only */}
-          <div className="hidden md:flex flex-col items-center gap-2 ml-auto">
-            <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-white/30">Scroll</span>
-            <motion.div
-              className="w-px h-6 bg-white/20 origin-top"
-              animate={{ scaleY: [0, 1, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
-            />
-          </div>
         </div>
       </motion.div>
     </section>
