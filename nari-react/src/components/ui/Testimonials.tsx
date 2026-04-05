@@ -111,30 +111,22 @@ const MarqueeRow = ({
   direction?: 'left' | 'right';
   duration?: number;
 }) => {
-  // Double the items for seamless infinite scroll
   const doubled = [...items, ...items];
+  const animationName = direction === 'left' ? 'marquee-left' : 'marquee-right';
 
   return (
     <div className="overflow-hidden">
-      <motion.div
+      <div
         className="flex gap-4 md:gap-6"
-        animate={{
-          x: direction === 'left'
-            ? ['0%', '-50%']
-            : ['-50%', '0%'],
-        }}
-        transition={{
-          x: {
-            duration,
-            repeat: Infinity,
-            ease: 'linear',
-          },
+        style={{
+          animation: `${animationName} ${duration}s linear infinite`,
+          willChange: 'transform',
         }}
       >
         {doubled.map((t, i) => (
           <TestimonialCard key={`${direction}-${i}`} t={t} />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };

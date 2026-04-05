@@ -27,12 +27,12 @@ export const Rituals = () => {
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex gap-2 overflow-x-auto no-scrollbar mb-10 pb-1">
+        <div className="flex flex-wrap gap-2 mb-10 pb-1">
           {serviceMenu.map(cat => (
             <button
               key={cat.id}
               onClick={() => setActiveTab(cat.id)}
-              className={`shrink-0 px-5 py-2.5 text-[12px] font-sans tracking-wide transition-all duration-150 cursor-pointer ${
+              className={`px-5 py-2.5 text-[12px] font-sans tracking-wide transition-all duration-150 cursor-pointer ${
                 activeTab === cat.id
                   ? 'bg-warm-900 text-white'
                   : 'bg-white text-warm-600 hover:text-warm-900'

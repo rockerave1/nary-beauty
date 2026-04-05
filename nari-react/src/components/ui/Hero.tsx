@@ -64,8 +64,8 @@ export const Hero = () => {
         />
       </motion.div>
 
-      {/* Content — left-aligned */}
-      <div className="relative z-10 h-full flex items-center">
+      {/* Content — left-aligned, pushed below logo on mobile */}
+      <div className="relative z-10 h-full flex items-end pb-32 md:pb-0 md:items-center">
         <div className="max-w-5xl mx-auto px-6 w-full">
           <motion.div
             className="max-w-lg"

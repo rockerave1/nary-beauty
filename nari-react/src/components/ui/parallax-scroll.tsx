@@ -3,6 +3,60 @@ import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 
+const MobileGallery = ({ images }: { images: string[] }) => {
+  const half = Math.ceil(images.length / 2);
+  const leftImages = images.slice(0, half);
+  const rightImages = images.slice(half);
+
+  // Double for seamless loop
+  const leftDoubled = [...leftImages, ...leftImages];
+  const rightDoubled = [...rightImages, ...rightImages];
+
+  return (
+    <div className="flex gap-3 h-[70vh] overflow-hidden">
+      {/* Left column — scrolls down */}
+      <div className="flex-1 overflow-hidden">
+        <div
+          className="flex flex-col gap-3"
+          style={{
+            animation: "gallery-scroll-down 25s linear infinite",
+            willChange: "transform",
+          }}
+        >
+          {leftDoubled.map((el, idx) => (
+            <img
+              key={`left-${idx}`}
+              src={el}
+              className="w-full h-52 object-cover rounded-lg flex-shrink-0"
+              alt="Gallery"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Right column — scrolls up */}
+      <div className="flex-1 overflow-hidden">
+        <div
+          className="flex flex-col gap-3"
+          style={{
+            animation: "gallery-scroll-up 30s linear infinite",
+            willChange: "transform",
+          }}
+        >
+          {rightDoubled.map((el, idx) => (
+            <img
+              key={`right-${idx}`}
+              src={el}
+              className="w-full h-52 object-cover rounded-lg flex-shrink-0"
+              alt="Gallery"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const ParallaxScrollSecond = ({
   images,
   className,
@@ -25,22 +79,24 @@ export const ParallaxScrollSecond = ({
     offset: ["start end", "end start"],
   });
 
-  // Reduce parallax intensity on mobile to prevent overflow
-  const translateYFirst = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -80 : -200]);
-  const translateXFirst = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 0 : -60]);
-  const rotateFirst = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 0 : -8]);
+  const translateYFirst = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const translateXFirst = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const rotateFirst = useTransform(scrollYProgress, [0, 1], [0, -8]);
 
-  const translateYSecond = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -50 : -120]);
+  const translateYSecond = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   const translateYThird = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const translateXThird = useTransform(scrollYProgress, [0, 1], [0, 60]);
   const rotateThird = useTransform(scrollYProgress, [0, 1], [0, 8]);
 
   const third = Math.ceil(images.length / 3);
-
   const firstPart = images.slice(0, third);
   const secondPart = images.slice(third, 2 * third);
   const thirdPart = images.slice(2 * third);
+
+  if (isMobile) {
+    return <MobileGallery images={images} />;
+  }
 
   return (
     <div

@@ -9,3 +9,5 @@ video/
 website/
 render-mcp-server/
 .claude/
+.aidesigner/*
+!.aidesigner/.gitkeep
