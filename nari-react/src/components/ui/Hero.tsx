@@ -51,9 +51,7 @@ export const Hero = () => {
         <div
           className="absolute inset-0"
           style={{
-            background: `
-              linear-gradient(to right, rgba(58,40,26,0.78) 0%, rgba(58,40,26,0.5) 30%, rgba(58,40,26,0.1) 60%, transparent 100%)
-            `,
+            background: 'linear-gradient(to right, rgba(58,40,26,0.78) 0%, rgba(58,40,26,0.5) 30%, rgba(58,40,26,0.1) 60%, transparent 100%)',
           }}
         />
         <div
@@ -68,13 +66,13 @@ export const Hero = () => {
       <div className="relative z-10 h-full flex items-end pb-32 md:pb-0 md:items-center">
         <div className="max-w-5xl mx-auto px-6 w-full">
           <motion.div
-            className="max-w-lg"
+            className="max-w-lg text-center md:text-left mx-auto md:mx-0"
             variants={stagger}
             initial="hidden"
             animate="show"
           >
             {/* Decorative ornament */}
-            <motion.div className="flex items-center gap-3 mb-10" variants={fadeUp}>
+            <motion.div className="flex items-center justify-center md:justify-start gap-3 mb-10" variants={fadeUp}>
               <div className="w-10 h-px bg-white/30" />
               <div className="w-1.5 h-1.5 rotate-45 bg-white/40" />
               <div className="w-10 h-px bg-white/30" />
@@ -89,22 +87,22 @@ export const Hero = () => {
             </motion.h1>
 
             <motion.p
-              className="font-sans text-[13px] md:text-[15px] text-white/50 leading-relaxed mb-10 max-w-sm"
+              className="font-sans text-[13px] md:text-[15px] text-white/50 leading-relaxed mb-10 max-w-sm mx-auto md:mx-0"
               variants={fadeUp}
             >
               Expert hair styling, nail artistry, and head-to-toe pampering — all in one calm, modern space.
             </motion.p>
 
-            <motion.div className="flex flex-col sm:flex-row items-start gap-4" variants={fadeUp}>
+            <motion.div className="flex flex-col sm:flex-row items-center md:items-start gap-4" variants={fadeUp}>
               <button
                 onClick={openBooking}
-                className="bg-white text-warm-900 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-warm-100 cursor-pointer"
+                className="bg-white text-warm-900 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-warm-100 cursor-pointer w-full sm:w-auto"
               >
                 Book an Appointment
               </button>
               <a
                 href="#services"
-                className="border border-white/20 text-white/70 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans hover:border-white/40 hover:text-white"
+                className="border border-white/20 text-white/70 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-sans hover:border-white/40 hover:text-white w-full sm:w-auto text-center"
               >
                 Our Services
               </a>

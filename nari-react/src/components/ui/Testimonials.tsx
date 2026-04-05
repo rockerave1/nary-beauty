@@ -111,11 +111,17 @@ const MarqueeRow = ({
   direction?: 'left' | 'right';
   duration?: number;
 }) => {
-  const doubled = [...items, ...items];
+  const tripled = [...items, ...items, ...items];
   const animationName = direction === 'left' ? 'marquee-left' : 'marquee-right';
 
   return (
-    <div className="overflow-hidden">
+    <div
+      className="overflow-hidden"
+      style={{
+        maskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+        WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
+      }}
+    >
       <div
         className="flex gap-4 md:gap-6"
         style={{
@@ -123,7 +129,7 @@ const MarqueeRow = ({
           willChange: 'transform',
         }}
       >
-        {doubled.map((t, i) => (
+        {tripled.map((t, i) => (
           <TestimonialCard key={`${direction}-${i}`} t={t} />
         ))}
       </div>
@@ -163,8 +169,8 @@ export const Testimonials = () => {
 
       {/* Marquee rows */}
       <div className="flex flex-col gap-4 md:gap-6">
-        <MarqueeRow items={row1} direction="left" duration={22} />
-        <MarqueeRow items={row2} direction="right" duration={25} />
+        <MarqueeRow items={row1} direction="left" duration={14} />
+        <MarqueeRow items={row2} direction="right" duration={16} />
       </div>
     </section>
   );

@@ -8,22 +8,28 @@ const MobileGallery = ({ images }: { images: string[] }) => {
   const leftImages = images.slice(0, half);
   const rightImages = images.slice(half);
 
-  // Double for seamless loop
-  const leftDoubled = [...leftImages, ...leftImages];
-  const rightDoubled = [...rightImages, ...rightImages];
+  // Triple for seamless loop — ensures no gap at the seam
+  const leftTripled = [...leftImages, ...leftImages, ...leftImages];
+  const rightTripled = [...rightImages, ...rightImages, ...rightImages];
 
   return (
-    <div className="flex gap-3 h-[70vh] overflow-hidden">
+    <div
+      className="flex gap-3 h-[70vh] overflow-hidden"
+      style={{
+        maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+        WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+      }}
+    >
       {/* Left column — scrolls down */}
       <div className="flex-1 overflow-hidden">
         <div
           className="flex flex-col gap-3"
           style={{
-            animation: "gallery-scroll-down 25s linear infinite",
+            animation: "gallery-scroll-down 30s linear infinite",
             willChange: "transform",
           }}
         >
-          {leftDoubled.map((el, idx) => (
+          {leftTripled.map((el, idx) => (
             <img
               key={`left-${idx}`}
               src={el}
@@ -43,7 +49,7 @@ const MobileGallery = ({ images }: { images: string[] }) => {
             willChange: "transform",
           }}
         >
-          {rightDoubled.map((el, idx) => (
+          {rightTripled.map((el, idx) => (
             <img
               key={`right-${idx}`}
               src={el}
