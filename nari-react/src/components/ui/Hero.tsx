@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useBooking } from '../../hooks/useBooking';
 
@@ -21,46 +20,26 @@ const fadeIn = {
 
 export const Hero = () => {
   const { open: openBooking } = useBooking();
-  const [videoReady, setVideoReady] = useState(false);
 
   return (
     <section id="home" className="relative h-screen min-h-[650px] overflow-hidden bg-[#0f0a08]">
-      {/* Background video */}
+      {/* Background imagery */}
       <motion.div
         className="absolute inset-0"
         variants={fadeIn}
         initial="hidden"
-        animate={videoReady ? 'show' : 'hidden'}
+        animate="show"
       >
-        {/* Poster fallback while video loads */}
-        <img
-          src="/images/salon-render-bright.jpg"
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Desktop video */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          onCanPlay={() => setVideoReady(true)}
-          className="absolute inset-0 w-full h-full object-cover hidden md:block"
-        >
-          <source src="/images/hero-bg.mp4" type="video/mp4" />
-        </video>
-        {/* Mobile video (portrait) */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          onCanPlay={() => setVideoReady(true)}
-          className="absolute inset-0 w-full h-full object-cover md:hidden"
-        >
-          <source src="/images/hero-bg-mobile.mp4" type="video/mp4" />
-        </video>
+        <picture>
+          <source media="(min-width: 768px)" srcSet="/images/hero-desktop-bg.jpg" />
+          <img
+            src="/images/hero-mobile-bg.png"
+            alt=""
+            aria-hidden
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        </picture>
 
         {/* Gradient overlays */}
         <div
