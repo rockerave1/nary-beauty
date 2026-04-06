@@ -33,7 +33,7 @@ export const Hero = () => {
         <picture>
           <source media="(min-width: 768px)" srcSet="/images/hero-desktop-bg.jpg" />
           <img
-            src="/images/hero-mobile-bg.png"
+            src="/images/hero-mobile-bg.jpg"
             alt=""
             aria-hidden
             fetchPriority="high"
